@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="Button_savelog">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>0</y>
+      <x>670</x>
+      <y>90</y>
       <width>100</width>
       <height>40</height>
      </rect>
@@ -149,27 +149,14 @@
    <widget class="QPushButton" name="Button_clearlog">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>0</y>
+      <x>780</x>
+      <y>90</y>
       <width>100</width>
       <height>40</height>
      </rect>
     </property>
     <property name="text">
      <string>清除显示区</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="Button_filter">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>0</y>
-      <width>100</width>
-      <height>40</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>数据解析</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="DataReceived">
@@ -373,6 +360,161 @@
     </property>
     <property name="text">
      <string>波特率：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>20</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>第1段：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>50</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>第2段：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>80</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>第3段：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>110</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>第4段：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_temp1">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>20</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_temp2">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>50</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_temp3">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>80</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_temp4">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>110</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Button_set_temp">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>140</y>
+      <width>100</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>写入温度参数</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Button_stop_heat">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>140</y>
+      <width>100</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>停止加热</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Button_cmd_info">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>90</y>
+      <width>100</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>info设备信息</string>
     </property>
    </widget>
   </widget>

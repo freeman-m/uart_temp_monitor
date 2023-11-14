@@ -23,12 +23,18 @@ public:
 
     QCPItemText *TextTip;
 
+    // 配置文件对象
+    QSettings *settings;
+
     void serial_close(void);
     void serial2_close(void);
     void plot_init();       // 绘图初始化
     void plot_updata_sensor_temp(float *p_value);
     void plot_updata_sensor_temp(int x_cnt,float *p_value);
     void plot_clear();
+
+    void save_windows_parm();
+    void read_windows_parm();
 
 private slots:
     void on_Button_open_clicked();
@@ -48,14 +54,18 @@ private slots:
 
     void on_Button_clearlog_clicked();
 
-    void on_Button_filter_clicked();
-
     // 点击选点显示坐标
     void myMoveEvent(QMouseEvent *event);
 
     void on_Button_plot_clear_clicked();
 
     void on_Button_pause_clicked();
+
+    void on_Button_set_temp_clicked();
+
+    void on_Button_stop_heat_clicked();
+
+    void on_Button_cmd_info_clicked();
 
 protected:
     void timerEvent(QTimerEvent *e);

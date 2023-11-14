@@ -1,13 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QFile>
 #include <QDateTime>
-
 #include <QMessageBox>
 #include <QDebug>
 
 #include <QTimerEvent>
+
+#include <QSettings>
+#include <QFile>
+
+#include <QTextCursor>
 
 #include "qcustomplot.h"
 
@@ -20,16 +23,51 @@ static int open_sta2=0;
 
 timer_rt user_timer = {0, 0};
 
+// 配置文件保存与加载
+void MainWindow::save_windows_parm()
+{
+    qDebug("%s", __func__);
+
+    settings->setValue("serial1/com", ui->comboBox_port->currentText());
+    settings->setValue("serial2/com", ui->comboBox_port_2->currentText());
+    settings->setValue("tempparm/temp1", ui->lineEdit_temp1->text().trimmed());
+    settings->setValue("tempparm/temp2", ui->lineEdit_temp2->text().trimmed());
+    settings->setValue("tempparm/temp3", ui->lineEdit_temp3->text().trimmed());
+    settings->setValue("tempparm/temp4", ui->lineEdit_temp4->text().trimmed());
+
+    settings->sync();
+}
+
+void MainWindow::read_windows_parm()
+{
+    qDebug("%s", __func__);
+    settings = new QSettings("setting.ini",QSettings::IniFormat);
+    qDebug() << QCoreApplication::applicationDirPath();
+
+    ui->comboBox_port->addItem(settings->value("serial1/com").toString());
+    ui->comboBox_port_2->addItem(settings->value("serial2/com").toString());
+
+    ui->lineEdit_temp1->setText(settings->value("tempparm/temp1").toString());
+    ui->lineEdit_temp2->setText(settings->value("tempparm/temp2").toString());
+    ui->lineEdit_temp3->setText(settings->value("tempparm/temp3").toString());
+    ui->lineEdit_temp4->setText(settings->value("tempparm/temp4").toString());
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
+    read_windows_parm();
+
+    ui->lineEdit_temp1->setValidator(new QIntValidator(0,400,this));  // [1,1000]范围内的整数输入
+    ui->lineEdit_temp2->setValidator(new QIntValidator(0,400,this));  // [1,1000]范围内的整数输入
+    ui->lineEdit_temp3->setValidator(new QIntValidator(0,400,this));  // [1,1000]范围内的整数输入
+    ui->lineEdit_temp4->setValidator(new QIntValidator(0,400,this));  // [1,1000]范围内的整数输入
+
     ui->comboBox_baudrate->setCurrentIndex(2);//2 - 38400
     ui->comboBox_baudrate_2->setCurrentIndex(4);//4 - 115200
-    on_Button_refresh_clicked();
-    on_Button_refresh_2_clicked();
 
     plot_init();
 }
@@ -37,6 +75,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    save_windows_parm();
+
     delete ui;
 }
 
@@ -175,12 +215,6 @@ void MainWindow::ReadSerialData()
         rec_data.clear();
         len = 0;
     }
-}
-
-
-void MainWindow::on_Button_filter_clicked()
-{
-
 }
 
 // 100ms定时器中断
@@ -392,8 +426,31 @@ void MainWindow::ReadSerialData2()
 {
     static QByteArray decode_data;    // 待解析的16进制数据
     static QByteArray data;
+    QByteArray rec_data;
+
     int start, end, i, index;
-    data += serial2->readAll();               // 读取数据
+    rec_data = serial2->readAll();
+
+    // 显示内容
+    if (ui->DataReceived->toPlainText().length() > 100000)
+    {
+        ui->DataReceived->clear();
+    }
+    ui->DataReceived->moveCursor(QTextCursor::End);
+////    ui->DataReceived->append(tr("接收数据：") + QString(rec_data));
+
+//    ui->DataReceived->insertPlainText(tr("接收数据<--: ") + QString::fromUtf8(rec_data));
+//    ui->DataReceived->insertPlainText("\n");
+//    ui->DataReceived->moveCursor(QTextCursor::End);
+//    ui->DataReceived->insertPlainText(rec_data);
+
+    ui->DataReceived->insertPlainText(rec_data);
+
+//    QThread::msleep(10);    // 线程暂停10ms,防止数据读取过快
+
+
+    data += rec_data;                 // 读取数据
+
     if(!data.isEmpty())
     {
         if (data.count('\x7E') == 2)
@@ -406,12 +463,12 @@ void MainWindow::ReadSerialData2()
             i = 0;
             for (index=start+1; index<end; index++)
             {
-                if ((uint8_t)data[index] == USB_SHIFT_FLAG_PKT)
+                if (((uint8_t)data[index] == USB_SHIFT_FLAG) && ((uint8_t)data[index+1] == USB_SHIFT_FLAG_PKT))
                 {
                     decode_data[i] = USB_PKT_FLAG;
                     index++;
                 }
-                else if ((uint8_t)data[index] == USB_SHIFT_FLAG_SHIFT)
+                else if (((uint8_t)data[index] == USB_SHIFT_FLAG) && ((uint8_t)data[index+1] == USB_SHIFT_FLAG_SHIFT))
                 {
                     decode_data[i] = USB_SHIFT_FLAG;
                     index++;
@@ -422,9 +479,73 @@ void MainWindow::ReadSerialData2()
                 }
                 i++;
             }
-            uart_rec_decode(decode_data, i);
             data.clear();
+            uart_rec_decode(decode_data, i);
+            decode_data.clear();
         }
-
     }
+}
+
+
+void Delay_MSec(unsigned int msec)
+{
+    QEventLoop loop;//定义一个新的事件循环
+    QTimer::singleShot(msec, &loop, SLOT(quit()));//创建单次定时器，槽函数为事件循环的退出函数
+    loop.exec();//事件循环开始执行，程序会卡在这里，直到定时时间到，本循环被退出
+}
+
+void serial2_send_data(QString data)
+{
+    serial2->write(data.toUtf8(), data.toUtf8().size());
+}
+
+void MainWindow::on_Button_set_temp_clicked()
+{
+    QString sendData;
+    sendData.clear();
+    if (ui->lineEdit_temp1->text() != NULL)
+    {
+        sendData += "test heating:1:";
+        sendData += ui->lineEdit_temp1->text();
+    }
+    serial2_send_data(sendData);
+
+    Delay_MSec(50);
+    sendData.clear();
+    if (ui->lineEdit_temp2->text() != NULL)
+    {
+        sendData += "test heating:2:";
+        sendData += ui->lineEdit_temp2->text();
+    }
+    serial2_send_data(sendData);
+
+    Delay_MSec(50);
+    sendData.clear();
+    if (ui->lineEdit_temp3->text() != NULL)
+    {
+        sendData += "test heating:3:";
+        sendData += ui->lineEdit_temp3->text();
+    }
+    serial2_send_data(sendData);
+
+    Delay_MSec(50);
+    sendData.clear();
+    if (ui->lineEdit_temp4->text() != NULL)
+    {
+        sendData += "test heating:4:";
+        sendData += ui->lineEdit_temp4->text();
+    }
+    serial2_send_data(sendData);
+}
+
+void MainWindow::on_Button_stop_heat_clicked()
+{
+    QString sendData = "test heating:stop";
+    serial2_send_data(sendData);
+}
+
+void MainWindow::on_Button_cmd_info_clicked()
+{
+    QString sendData = "info";
+    serial2_send_data(sendData);
 }

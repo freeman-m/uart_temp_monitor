@@ -6,8 +6,6 @@
 #define D_MY_PLOT_Y_MIN 0
 #define D_MY_PLOT_Y_MAX 400
 
-
-
 // 定时器结构体
 typedef struct
 {
