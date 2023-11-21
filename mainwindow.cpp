@@ -208,7 +208,11 @@ void MainWindow::ReadSerialData()
         rec_temp[1] = (float)((uchar_data[5]<<8) | uchar_data[6])/10;
         rec_temp[2] = (float)((uchar_data[7]<<8) | uchar_data[8])/10;
 
-//        qDebug("[%f,%f,%f]", rec_temp[0], rec_temp[1], rec_temp[2]);
+        qDebug("[%f,%f,%f]", rec_temp[0], rec_temp[1], rec_temp[2]);
+
+        if (rec_temp[0] > 400)  rec_temp[0] = 399;
+        if (rec_temp[1] > 400)  rec_temp[1] = 399;
+        if (rec_temp[2] > 400)  rec_temp[2] = 399;
 
         plot_updata_sensor_temp(rec_temp);
 
