@@ -422,7 +422,7 @@ void MainWindow::uart_rec_decode(QByteArray data, uint8_t len)
     qDebug("device temp [%.1f, %.1f, %.1f]", device_temp[0], device_temp[1], device_temp[2]);
     memset(buf, 0, sizeof(buf));
 
-    plot_updata_sensor_temp(user_timer.timer_cnt, device_temp);
+//    plot_updata_sensor_temp(user_timer.timer_cnt, device_temp);
 }
 
 
@@ -551,5 +551,11 @@ void MainWindow::on_Button_stop_heat_clicked()
 void MainWindow::on_Button_cmd_info_clicked()
 {
     QString sendData = "info";
+    serial2_send_data(sendData);
+}
+
+void MainWindow::on_Button_cmd_res_read_clicked()
+{
+    QString sendData = "res read";
     serial2_send_data(sendData);
 }
