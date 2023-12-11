@@ -69,6 +69,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox_baudrate->setCurrentIndex(2);//2 - 38400
     ui->comboBox_baudrate_2->setCurrentIndex(4);//4 - 115200
 
+    ui->label_7->setStyleSheet("color: red");
+    ui->label_9->setStyleSheet("color: green");
+    ui->label_10->setStyleSheet("color: blue");
+
     plot_init();
 }
 
@@ -105,7 +109,7 @@ void MainWindow::on_Button_open_clicked()
             ui->Button_open->setText("关闭串口");
             open_sta = 1;
 
-            user_timer.timer_idl = startTimer(100);    //单位是 毫秒
+            user_timer.timer_idl = startTimer(200);    //单位是 毫秒
         }
         else    //打开失败提示
         {
@@ -449,6 +453,7 @@ void MainWindow::ReadSerialData2()
 //    ui->DataReceived->insertPlainText(rec_data);
 
     ui->DataReceived->insertPlainText(rec_data);
+    ui->DataReceived->moveCursor(QTextCursor::End);
 
 //    QThread::msleep(10);    // 线程暂停10ms,防止数据读取过快
 
@@ -511,6 +516,7 @@ void MainWindow::on_Button_set_temp_clicked()
     {
         sendData += "test heating:1:";
         sendData += ui->lineEdit_temp1->text();
+        sendData += "\r\n";
     }
     serial2_send_data(sendData);
 
@@ -520,6 +526,7 @@ void MainWindow::on_Button_set_temp_clicked()
     {
         sendData += "test heating:2:";
         sendData += ui->lineEdit_temp2->text();
+        sendData += "\r\n";
     }
     serial2_send_data(sendData);
 
@@ -529,6 +536,7 @@ void MainWindow::on_Button_set_temp_clicked()
     {
         sendData += "test heating:3:";
         sendData += ui->lineEdit_temp3->text();
+        sendData += "\r\n";
     }
     serial2_send_data(sendData);
 
@@ -538,24 +546,31 @@ void MainWindow::on_Button_set_temp_clicked()
     {
         sendData += "test heating:4:";
         sendData += ui->lineEdit_temp4->text();
+        sendData += "\r\n";
     }
     serial2_send_data(sendData);
 }
 
 void MainWindow::on_Button_stop_heat_clicked()
 {
-    QString sendData = "test heating:stop";
+    QString sendData = "test heating:stop\r\n";
     serial2_send_data(sendData);
 }
 
 void MainWindow::on_Button_cmd_info_clicked()
 {
-    QString sendData = "info";
+    QString sendData = "info\r\n";
     serial2_send_data(sendData);
 }
 
 void MainWindow::on_Button_cmd_res_read_clicked()
 {
-    QString sendData = "res read";
+    QString sendData = "res read\r\n";
+    serial2_send_data(sendData);
+}
+
+void MainWindow::on_Button_dev_reset_clicked()
+{
+    QString sendData = "dev reset\r\n";
     serial2_send_data(sendData);
 }
