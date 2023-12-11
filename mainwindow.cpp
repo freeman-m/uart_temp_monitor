@@ -69,6 +69,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox_baudrate->setCurrentIndex(2);//2 - 38400
     ui->comboBox_baudrate_2->setCurrentIndex(4);//4 - 115200
 
+    ui->label_7->setStyleSheet("color: red");
+    ui->label_9->setStyleSheet("color: green");
+    ui->label_10->setStyleSheet("color: blue");
+
     plot_init();
 }
 
@@ -557,5 +561,11 @@ void MainWindow::on_Button_cmd_info_clicked()
 void MainWindow::on_Button_cmd_res_read_clicked()
 {
     QString sendData = "res read";
+    serial2_send_data(sendData);
+}
+
+void MainWindow::on_Button_dev_reset_clicked()
+{
+    QString sendData = "dev reset";
     serial2_send_data(sendData);
 }

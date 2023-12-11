@@ -174,7 +174,7 @@
      <rect>
       <x>670</x>
       <y>190</y>
-      <width>1371</width>
+      <width>1031</width>
       <height>771</height>
      </rect>
     </property>
@@ -375,6 +375,8 @@
      <font>
       <family>Agency FB</family>
       <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -413,6 +415,8 @@
      <font>
       <family>Agency FB</family>
       <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -432,6 +436,8 @@
      <font>
       <family>Agency FB</family>
       <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -528,6 +534,19 @@
     </property>
     <property name="text">
      <string>res read</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Button_dev_reset">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>140</y>
+      <width>100</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>设备重启</string>
     </property>
    </widget>
   </widget>
