@@ -13,6 +13,7 @@ CONFIG += c++11
 TARGET = uart1
 TEMPLATE = app
 
+RC_ICONS += logo.ico
 
 SOURCES += main.cpp\
         mainwindow.cpp \

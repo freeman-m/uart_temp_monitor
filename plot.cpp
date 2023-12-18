@@ -127,9 +127,8 @@ void MainWindow::plot_updata_sensor_temp(float *p_value)
     // Note: we could have also just called customPlot->rescaleAxes(); instead
 #endif
 
-
+        float x = (float)x_cnt/5;
         x_cnt ++;
-        float x = (float)x_cnt/10;
 
         ui->customPlot->graph(0)->addData(x, p_value[0]);
         ui->customPlot->graph(1)->addData(x, p_value[1]);
