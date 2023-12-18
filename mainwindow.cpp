@@ -574,3 +574,9 @@ void MainWindow::on_Button_dev_reset_clicked()
     QString sendData = "dev reset\r\n";
     serial2_send_data(sendData);
 }
+
+void MainWindow::on_Button_dev_reset_clicked()
+{
+    QString sendData = "dev reset";
+    serial2_send_data(sendData);
+}
