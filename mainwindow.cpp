@@ -18,8 +18,13 @@
 
 QSerialPort *serial;                    // 定义全局的串口对象
 QSerialPort *serial2;
+QSerialPort *serial3;
 static int open_sta=0;
 static int open_sta2=0;
+static int open_sta3=0;
+
+float rec_temp[4];                      // 测温仪读回来的温度
+float infrared_temp;                    // 红外探头读回来的温度
 
 timer_rt user_timer = {0, 0};
 
@@ -30,6 +35,7 @@ void MainWindow::save_windows_parm()
 
     settings->setValue("serial1/com", ui->comboBox_port->currentText());
     settings->setValue("serial2/com", ui->comboBox_port_2->currentText());
+    settings->setValue("serial3/com", ui->comboBox_port_3->currentText());
     settings->setValue("tempparm/temp1", ui->lineEdit_temp1->text().trimmed());
     settings->setValue("tempparm/temp2", ui->lineEdit_temp2->text().trimmed());
     settings->setValue("tempparm/temp3", ui->lineEdit_temp3->text().trimmed());
@@ -46,6 +52,7 @@ void MainWindow::read_windows_parm()
 
     ui->comboBox_port->addItem(settings->value("serial1/com").toString());
     ui->comboBox_port_2->addItem(settings->value("serial2/com").toString());
+    ui->comboBox_port_3->addItem(settings->value("serial3/com").toString());
 
     ui->lineEdit_temp1->setText(settings->value("tempparm/temp1").toString());
     ui->lineEdit_temp2->setText(settings->value("tempparm/temp2").toString());
@@ -68,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->comboBox_baudrate->setCurrentIndex(2);//2 - 38400
     ui->comboBox_baudrate_2->setCurrentIndex(4);//4 - 115200
+    ui->comboBox_baudrate_3->setCurrentIndex(1);//4 - 115200
 
     ui->label_7->setStyleSheet("color: red");
     ui->label_9->setStyleSheet("color: green");
@@ -193,7 +201,6 @@ void MainWindow::ReadSerialData()
 {
     static QByteArray rec_data;
     static int len;
-    float rec_temp[3];
     uchar *uchar_data;
 
     QByteArray curr_rec = serial->readAll();
@@ -218,6 +225,8 @@ void MainWindow::ReadSerialData()
         if (rec_temp[1] > 400)  rec_temp[1] = 399;
         if (rec_temp[2] > 400)  rec_temp[2] = 399;
 
+        rec_temp[3] = infrared_temp;
+
         plot_updata_sensor_temp(rec_temp);
 
         rec_data.clear();
@@ -232,8 +241,10 @@ void MainWindow::timerEvent(QTimerEvent *e)
     {
         user_timer.timer_cnt ++;
         serial_cmd_get_temp();
-    }
 
+        extern void serial_cmd_get_temp_infrared(void);
+        serial_cmd_get_temp_infrared();
+    }
 }
 
 
@@ -573,4 +584,137 @@ void MainWindow::on_Button_dev_reset_clicked()
 {
     QString sendData = "dev reset\r\n";
     serial2_send_data(sendData);
+}
+
+
+
+void MainWindow::on_Button_refresh_3_clicked()
+{
+    if (open_sta3)
+    {
+        serial3_close();
+    }
+
+    ui->comboBox_port_3->clear();
+
+    QList<QSerialPortInfo> ports = QSerialPortInfo::availablePorts();		//获取设备的串口列表
+
+    //冒泡排序法进行排序
+    for (int i = 0; i < ports.size();i++)
+    {
+        for (int j = i + 1; j < ports.size(); j++)
+        {
+            QString name = ports.at(i).portName();	//i的串口数字
+            int portNumI = name.mid(3).toInt();
+
+            name = ports.at(j).portName();			//j的串口数字
+            int portNumJ = name.mid(3).toInt();
+
+            if (portNumI > portNumJ)				//ij交换
+            {
+                ports.swap(i, j);
+            }
+        }
+    }
+
+    foreach (QSerialPortInfo port, ports)
+    {
+        ui->comboBox_port_3->addItem(port.portName());
+    }
+}
+
+// 关闭串口
+void MainWindow::serial3_close(void)
+{
+    serial3->close();
+    ui->Button_open_3->setText("打开串口");
+    open_sta3 = 0;
+}
+
+void MainWindow::on_Button_open_3_clicked()
+{
+    // 打开串口
+    if (!open_sta3)
+    {
+        serial3 = new QSerialPort;
+        serial3->setPortName(ui->comboBox_port_3->currentText());
+
+        if(serial3->open(QIODevice::ReadWrite))              //打开串口成功
+        {
+            serial3->setBaudRate(ui->comboBox_baudrate_3->currentText().toInt());       //设置波特率
+
+            QObject::connect(serial3, &QSerialPort::readyRead, this, &MainWindow::ReadSerialData3);
+
+            ui->Button_open_3->setText("关闭串口");
+            open_sta3 = 1;
+
+//            user_timer.timer_idl = startTimer(100);    //单位是 毫秒
+        }
+        else    //打开失败提示
+        {
+            QMessageBox::information(this,tr("错误"),tr("打开串口失败！"),QMessageBox::Ok);
+        }
+    }
+    else
+    {
+        serial3_close();
+    }
+}
+
+
+void serial_cmd_get_temp_infrared(void)
+{
+    if (!open_sta3)
+        return;
+
+    char array[8] = {0xF7,0x04,0x10,0x00,0x00,0x01,0x21,0x9C};  // 获取红外探头数据
+    serial3->write(array, sizeof(array));
+}
+
+void MainWindow::ReadSerialData3()
+{
+    static QByteArray decode_data3;    // 待解析的16进制数据
+    static QByteArray data3;
+    QByteArray rec_data;
+
+    int start, i, index;
+    rec_data = serial3->readAll();
+
+    data3 += rec_data;                 // 读取数据
+
+    if(!data3.isEmpty())
+    {
+        if (data3.count('\x7E\x04\x02') && data3.length()==7 )
+        {
+            qDebug() << data3.toHex();   //打印16进制
+            start = data3.indexOf('\x7E\x04\x02');
+            qDebug("%d", start);
+
+            infrared_temp = (float)(((uint8_t)data3[start+1]<<8) | (uint8_t)data3[start+2])/10;
+            qDebug("%f", infrared_temp);
+
+//            i = 0;
+//            for (index=start+1; index<end; index++)
+//            {
+//                if (((uint8_t)data[index] == USB_SHIFT_FLAG) && ((uint8_t)data[index+1] == USB_SHIFT_FLAG_PKT))
+//                {
+//                    decode_data[i] = USB_PKT_FLAG;
+//                    index++;
+//                }
+//                else if (((uint8_t)data[index] == USB_SHIFT_FLAG) && ((uint8_t)data[index+1] == USB_SHIFT_FLAG_SHIFT))
+//                {
+//                    decode_data[i] = USB_SHIFT_FLAG;
+//                    index++;
+//                }
+//                else
+//                {
+//                    decode_data[i] = data[index];
+//                }
+//                i++;
+//            }
+            data3.clear();
+//            uart_rec_decode(decode_data, i);
+//            decode_data.clear();
+        }
+    }
 }

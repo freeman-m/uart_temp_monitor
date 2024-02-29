@@ -28,6 +28,7 @@ public:
 
     void serial_close(void);
     void serial2_close(void);
+    void serial3_close(void);
     void plot_init();       // 绘图初始化
     void plot_updata_sensor_temp(float *p_value);
     void plot_updata_sensor_temp(int x_cnt,float *p_value);
@@ -50,6 +51,7 @@ private slots:
     // 串口槽函数
     void ReadSerialData();                        // 接收数据
     void ReadSerialData2();
+    void ReadSerialData3();
     void uart_rec_decode(QByteArray data, uint8_t len);  // 设备温度解析
 
     void on_Button_clearlog_clicked();
@@ -70,6 +72,10 @@ private slots:
     void on_Button_cmd_res_read_clicked();
 
     void on_Button_dev_reset_clicked();
+
+    void on_Button_refresh_3_clicked();
+
+    void on_Button_open_3_clicked();
 
 protected:
     void timerEvent(QTimerEvent *e);

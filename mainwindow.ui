@@ -30,7 +30,7 @@
    <widget class="QPushButton" name="Button_savelog">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>800</x>
       <y>90</y>
       <width>100</width>
       <height>40</height>
@@ -149,7 +149,7 @@
    <widget class="QPushButton" name="Button_clearlog">
     <property name="geometry">
      <rect>
-      <x>790</x>
+      <x>910</x>
       <y>90</y>
       <width>100</width>
       <height>40</height>
@@ -164,7 +164,7 @@
      <rect>
       <x>10</x>
       <y>190</y>
-      <width>651</width>
+      <width>831</width>
       <height>791</height>
      </rect>
     </property>
@@ -172,9 +172,9 @@
    <widget class="QCustomPlot" name="customPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>850</x>
       <y>190</y>
-      <width>1031</width>
+      <width>1191</width>
       <height>771</height>
      </rect>
     </property>
@@ -182,7 +182,7 @@
    <widget class="QPushButton" name="Button_plot_clear">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>800</x>
       <y>140</y>
       <width>100</width>
       <height>40</height>
@@ -195,7 +195,7 @@
    <widget class="QPushButton" name="Button_pause">
     <property name="geometry">
      <rect>
-      <x>790</x>
+      <x>910</x>
       <y>140</y>
       <width>100</width>
       <height>40</height>
@@ -365,7 +365,7 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>460</x>
       <y>20</y>
       <width>54</width>
       <height>21</height>
@@ -386,7 +386,7 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>460</x>
       <y>50</y>
       <width>54</width>
       <height>21</height>
@@ -405,7 +405,7 @@
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>460</x>
       <y>80</y>
       <width>54</width>
       <height>21</height>
@@ -426,7 +426,7 @@
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>460</x>
       <y>110</y>
       <width>54</width>
       <height>21</height>
@@ -447,7 +447,7 @@
    <widget class="QLineEdit" name="lineEdit_temp1">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>510</x>
       <y>20</y>
       <width>51</width>
       <height>20</height>
@@ -457,7 +457,7 @@
    <widget class="QLineEdit" name="lineEdit_temp2">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>510</x>
       <y>50</y>
       <width>51</width>
       <height>20</height>
@@ -467,7 +467,7 @@
    <widget class="QLineEdit" name="lineEdit_temp3">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>510</x>
       <y>80</y>
       <width>51</width>
       <height>20</height>
@@ -477,7 +477,7 @@
    <widget class="QLineEdit" name="lineEdit_temp4">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>510</x>
       <y>110</y>
       <width>51</width>
       <height>20</height>
@@ -487,7 +487,7 @@
    <widget class="QPushButton" name="Button_set_temp">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>460</x>
       <y>140</y>
       <width>100</width>
       <height>41</height>
@@ -500,7 +500,7 @@
    <widget class="QPushButton" name="Button_stop_heat">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>580</x>
       <y>140</y>
       <width>100</width>
       <height>41</height>
@@ -513,7 +513,7 @@
    <widget class="QPushButton" name="Button_cmd_info">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>580</x>
       <y>40</y>
       <width>100</width>
       <height>40</height>
@@ -526,7 +526,7 @@
    <widget class="QPushButton" name="Button_cmd_res_read">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>580</x>
       <y>90</y>
       <width>100</width>
       <height>40</height>
@@ -539,7 +539,7 @@
    <widget class="QPushButton" name="Button_dev_reset">
     <property name="geometry">
      <rect>
-      <x>570</x>
+      <x>690</x>
       <y>140</y>
       <width>100</width>
       <height>41</height>
@@ -548,6 +548,144 @@
     <property name="text">
      <string>设备重启</string>
     </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>10</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>红外</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Button_refresh_3">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>30</y>
+      <width>131</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>刷新串口</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Button_open_3">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>80</y>
+      <width>131</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>打开串口</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>130</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>串口号：</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_port_3">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>130</y>
+      <width>69</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>160</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Agency FB</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>波特率：</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_baudrate_3">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>160</y>
+      <width>69</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>9600</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>19200</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>38400</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>57600</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>115200</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>230400</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>460800</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

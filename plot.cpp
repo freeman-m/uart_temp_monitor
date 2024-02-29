@@ -20,6 +20,8 @@ void MainWindow::plot_init(void)
 {
     ui->customPlot->xAxis->setRange(D_MY_PLOT_X_MIN, D_MY_PLOT_X_MAX);
     ui->customPlot->yAxis->setRange(D_MY_PLOT_Y_MIN, D_MY_PLOT_Y_MAX);
+    ui->customPlot->xAxis2->setRange(D_MY_PLOT_X_MIN, D_MY_PLOT_X_MAX);
+    ui->customPlot->yAxis2->setRange(D_MY_PLOT_Y_MIN, D_MY_PLOT_Y_MAX);
 
     ui->customPlot->xAxis2->setVisible(true);
     ui->customPlot->xAxis2->setTickLabels(true);
@@ -38,10 +40,15 @@ void MainWindow::plot_init(void)
     ui->customPlot->graph(2)->setPen(QPen(Qt::blue));
     ui->customPlot->graph(2)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ScatterShape::ssDisc,2));
 
+    ui->customPlot->addGraph();
+    ui->customPlot->graph(3)->setPen(QPen(Qt::darkRed));
+    ui->customPlot->graph(3)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ScatterShape::ssDisc,2));
+
 //    ui->customPlot->graph(0)->setData(x, y);
 
-//    connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->xAxis2, SLOT(setRange(QCPRange)));
-//    connect(ui->customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->yAxis2, SLOT(setRange(QCPRange)));
+    // 缩放时两对坐标轴同时
+    connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->xAxis2, SLOT(setRange(QCPRange)));
+    connect(ui->customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->yAxis2, SLOT(setRange(QCPRange)));
 
 #if 0
     // 生成数据，画出的是抛物线
@@ -133,6 +140,7 @@ void MainWindow::plot_updata_sensor_temp(float *p_value)
         ui->customPlot->graph(0)->addData(x, p_value[0]);
         ui->customPlot->graph(1)->addData(x, p_value[1]);
         ui->customPlot->graph(2)->addData(x, p_value[2]);
+        ui->customPlot->graph(3)->addData(x, p_value[3]);
         if (!pause_flag)
         {
             if (x > D_MY_PLOT_X_MAX)
@@ -145,11 +153,12 @@ void MainWindow::plot_updata_sensor_temp(float *p_value)
 
 void MainWindow::plot_updata_sensor_temp(int x_cnt,float *p_value)
 {
-        float x = (float)x_cnt/10;
+        float x = (float)x_cnt/5;
 
         ui->customPlot->graph(0)->addData(x, p_value[0]);
         ui->customPlot->graph(1)->addData(x, p_value[1]);
         ui->customPlot->graph(2)->addData(x, p_value[2]);
+        ui->customPlot->graph(3)->addData(x, p_value[3]);
         if (!pause_flag)
         {
             if (x > D_MY_PLOT_X_MAX)
@@ -260,10 +269,13 @@ void MainWindow::on_Button_plot_clear_clicked()
     ui->customPlot->graph(0)->data().data()->clear();
     ui->customPlot->graph(1)->data().data()->clear();
     ui->customPlot->graph(2)->data().data()->clear();
+    ui->customPlot->graph(3)->data().data()->clear();
     ui->customPlot->replot();
 
     ui->customPlot->xAxis->setRange(D_MY_PLOT_X_MIN, D_MY_PLOT_X_MAX);
     ui->customPlot->yAxis->setRange(D_MY_PLOT_Y_MIN, D_MY_PLOT_Y_MAX);
+    ui->customPlot->xAxis2->setRange(D_MY_PLOT_X_MIN, D_MY_PLOT_X_MAX);
+    ui->customPlot->yAxis2->setRange(D_MY_PLOT_Y_MIN, D_MY_PLOT_Y_MAX);
 
     pause_flag = 0;
     ui->Button_pause->setText("暂停采样");
