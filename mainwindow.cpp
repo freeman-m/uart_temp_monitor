@@ -718,3 +718,22 @@ void MainWindow::ReadSerialData3()
         }
     }
 }
+
+
+void MainWindow::on_Button_reset_clicked()
+{
+    if (!serial2)
+        return;
+
+    if (serial2->isOpen())
+    {
+        qDebug("%s", __func__);
+        serial2->setDataTerminalReady(false);
+        serial2->setRequestToSend(true);
+
+        QThread::msleep(500);//阻塞延时50ms
+        serial2->setRequestToSend(false);
+
+    }
+    qDebug("%se", __func__);
+}

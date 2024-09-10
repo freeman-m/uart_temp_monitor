@@ -2,7 +2,7 @@
 #define _D_PLOT_H_
 
 #define D_MY_PLOT_X_MIN 0
-#define D_MY_PLOT_X_MAX 10
+#define D_MY_PLOT_X_MAX 30
 #define D_MY_PLOT_Y_MIN 0
 #define D_MY_PLOT_Y_MAX 400
 

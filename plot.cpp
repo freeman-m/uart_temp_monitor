@@ -50,6 +50,8 @@ void MainWindow::plot_init(void)
     connect(ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->xAxis2, SLOT(setRange(QCPRange)));
     connect(ui->customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->customPlot->yAxis2, SLOT(setRange(QCPRange)));
 
+//    ui->customPlot->axisRect()->setRangeZoomFactor(1.2,1);
+
 #if 0
     // 生成数据，画出的是抛物线
     QVector<double> x(11), y(11),y1(11); //初始化向量x和y

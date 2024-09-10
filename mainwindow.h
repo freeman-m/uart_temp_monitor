@@ -77,6 +77,8 @@ private slots:
 
     void on_Button_open_3_clicked();
 
+    void on_Button_reset_clicked();
+
 protected:
     void timerEvent(QTimerEvent *e);
 

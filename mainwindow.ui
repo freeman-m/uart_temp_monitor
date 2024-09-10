@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2048</width>
-    <height>1024</height>
+    <width>2560</width>
+    <height>1400</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -164,18 +164,18 @@
      <rect>
       <x>10</x>
       <y>190</y>
-      <width>831</width>
-      <height>791</height>
+      <width>450</width>
+      <height>1150</height>
      </rect>
     </property>
    </widget>
    <widget class="QCustomPlot" name="customPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>190</y>
-      <width>1191</width>
-      <height>771</height>
+      <x>467</x>
+      <y>189</y>
+      <width>2080</width>
+      <height>1150</height>
      </rect>
     </property>
    </widget>
@@ -687,13 +687,26 @@
      </property>
     </item>
    </widget>
+   <widget class="QPushButton" name="Button_reset">
+    <property name="geometry">
+     <rect>
+      <x>1140</x>
+      <y>20</y>
+      <width>100</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ESP32设备重启</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2048</width>
+     <width>2560</width>
      <height>23</height>
     </rect>
    </property>
