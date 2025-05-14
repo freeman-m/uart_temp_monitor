@@ -79,6 +79,8 @@ private slots:
 
     void on_Button_reset_clicked();
 
+    void on_Button_eco_active_clicked();
+
 protected:
     void timerEvent(QTimerEvent *e);
 

@@ -737,3 +737,22 @@ void MainWindow::on_Button_reset_clicked()
     }
     qDebug("%se", __func__);
 }
+
+void MainWindow::on_Button_eco_active_clicked()
+{
+    if (!serial2)
+        return;
+
+    if (serial2->isOpen())
+    {
+        // 给定的字符串
+        QString data = "set activate123\r\n";
+        QByteArray byteArray = data.toUtf8();
+
+        serial2->write(byteArray);
+    }
+    else
+    {
+        QMessageBox::critical(this, "错误", "请先打开串口");
+    }
+}
